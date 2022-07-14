@@ -15,14 +15,14 @@ class CreateConvocatoriasTable extends Migration
     {
         Schema::create('convocatorias', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('cantidad_de_entidades_tecnicas');
-            $table->string('cantidad_de_modulos_registrados');
-            $table->string('cantidad_de_modulos_licitados');
-            $table->string('cantidad_de_modulos_ganados');
-            $table->string('porcentaje_cantidad_de_modulos_participados');
-            $table->string('porcentaje_cantidad_de_modulos_eficacia');
-            $table->string('estado');
+            $table->string('nombre')->nullable();
+            $table->string('cantidad_de_entidades_tecnicas')->nullable();
+            $table->string('cantidad_de_modulos_registrados')->nullable();
+            $table->string('cantidad_de_modulos_licitados')->nullable();
+            $table->string('cantidad_de_modulos_ganados')->nullable();
+            $table->string('porcentaje_cantidad_de_modulos_participados')->nullable();
+            $table->string('porcentaje_cantidad_de_modulos_eficacia')->nullable();
+            $table->string('estado')->nullable();
             $table->timestamps();
         });
     }

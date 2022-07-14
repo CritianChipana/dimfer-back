@@ -15,11 +15,11 @@ class CreateContactosTable extends Migration
     {
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('telefono');
-            $table->string('email');
+            $table->string('nombre')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable();
             //entidad_tecnica_id
-            $table->unsignedBigInteger('entidad_tecnica_id');
+            $table->unsignedBigInteger('entidad_tecnica_id')->nullable();
             $table->foreign('entidad_tecnica_id')->references('id')->on('entidad_tecnicas')->onDelete('cascade');
             $table->timestamps();
         });

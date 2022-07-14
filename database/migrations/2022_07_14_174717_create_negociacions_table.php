@@ -15,17 +15,17 @@ class CreateNegociacionsTable extends Migration
     {
         Schema::create('negociacions', function (Blueprint $table) {
             $table->id();
-            $table->string('fecha_de_facturacion');
-            $table->string('monto_en_soles');
-            $table->string('convocatoria');
-            $table->string('departamento_de_despacho');
-            $table->string('entidad_tecnica');
-            $table->string('estado_de_negociacion');
-            $table->string('etapa_de_contratacion');
-            $table->string('gano_entidad_tecnica');
-            $table->string('incluye_puerta_principal');
-            $table->string('perdio_entidad_tecnica');
-            $table->integer('porcentaje_de_cierre');
+            $table->string('fecha_de_facturacion')->nullable();
+            $table->string('monto_en_soles')->nullable();
+            $table->string('convocatoria')->nullable();
+            $table->string('departamento_de_despacho')->nullable();
+            $table->string('entidad_tecnica')->nullable();
+            $table->string('estado_de_negociacion')->nullable();
+            $table->string('etapa_de_contratacion')->nullable();
+            $table->string('gano_entidad_tecnica')->nullable();
+            $table->string('incluye_puerta_principal')->nullable();
+            $table->string('perdio_entidad_tecnica')->nullable();
+            $table->integer('porcentaje_de_cierre')->nullable();
             $table->timestamps();
         });
     }
