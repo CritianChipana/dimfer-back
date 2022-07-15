@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //ENTIDADES TECNICAS
 Route::get('/entidad', [EntidadTecnicaController::class, 'entidadesTecnicas']);
+Route::get('/entidad/user', [EntidadTecnicaController::class, 'entidadesTecnicasByUser']);
 Route::post('/entidad', [EntidadTecnicaController::class, 'createdEntidadTecnica']);
 Route::put('/entidad/{id}', [EntidadTecnicaController::class, 'updatedEntidadTecnica']);
 Route::delete('/entidad/{id}', [EntidadTecnicaController::class, 'deleteEntidadTecnica']);

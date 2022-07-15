@@ -27,6 +27,26 @@ class EntidadTecnicaController extends Controller
         }
 
     }
+    public function entidadesTecnicasByUser (Request $request) {
+        try {
+            $email_user = $request->header('email_user');
+            $entidadesTecnicas = EntidadTecnica::where('email_user', $email_user)->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $entidadesTecnicas
+            ], 200);
+
+        } catch (\Throwable $th) {
+            $payload = [
+                'success' => false,
+                'error' => $th->getMessage(),
+                'msg' => 'Error al listar la entidad técnica, hable con el administrador'
+            ];
+            return response()->json($payload, 500);
+        }
+
+    }
     public function createdEntidadTecnica (Request $request) {
         try {
 
