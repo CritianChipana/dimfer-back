@@ -17,7 +17,10 @@ class CreateContactosTable extends Migration
             $table->id();
             $table->string('nombre')->nullable();
             $table->string('telefono')->nullable();
+            $table->string('telefono2')->nullable();
+            $table->string('direccion')->nullable();
             $table->string('email')->nullable();
+            $table->string('email2')->nullable();
             //entidad_tecnica_id
             $table->unsignedBigInteger('entidad_tecnica_id')->nullable();
             $table->foreign('entidad_tecnica_id')->references('id')->on('entidad_tecnicas')->onDelete('cascade');
