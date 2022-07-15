@@ -28,12 +28,13 @@ class ContactoController extends Controller
     public function createdContacto (Request $request) {
 
         try {
-            $contacto = new Contacto();
-            $contacto->nombre = $request->nombre;
-            $contacto->telefono = $request->telefono;
-            $contacto->email = $request->email;
-            $contacto->entidad_tecnica_id = $request->entidad_tecnica_id;
-            $contacto->save();
+            // $contacto = new Contacto();
+            // $contacto->nombre = $request->nombre;
+            // $contacto->telefono = $request->telefono;
+            // $contacto->email = $request->email;
+            // $contacto->entidad_tecnica_id = $request->entidad_tecnica_id;
+            // $contacto->save();
+            $contacto = Contacto::create($request->all());
 
             return response()->json([
                 'success' => true,
@@ -56,11 +57,12 @@ class ContactoController extends Controller
             $contacto = Contacto::find($id);
 
             if ($contacto) {
-                $contacto->nombre = $request->nombre;
-                $contacto->telefono = $request->telefono;
-                $contacto->email = $request->email;
-                // $contacto->entidad_tecnica_id = $request->entidad_tecnica_id;
-                $contacto->save();
+                // $contacto->nombre = $request->nombre;
+                // $contacto->telefono = $request->telefono;
+                // $contacto->email = $request->email;
+                // // $contacto->entidad_tecnica_id = $request->entidad_tecnica_id;
+                // $contacto->save();
+                $contacto->update($request->all());
 
                 return response()->json([
                     'success' => true,

@@ -11,7 +11,7 @@ class ComentarioController extends Controller
     public function comentarios(Request $request, $id_entidad)
     {
         try {
-            $comentarios = Comentario::where('entidad_tecnica_id', $id_entidad)->get();
+            $comentarios = Comentario::where('entidad_tecnica_id', $id_entidad)->orderBy('created_at', 'desc')->get();
 
             return response()->json([
                 'success' => true,
