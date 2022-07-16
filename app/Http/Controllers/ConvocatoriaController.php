@@ -27,6 +27,36 @@ class ConvocatoriaController extends Controller
             return response()->json($payload, 500);
         }
     }
+
+    public function entidadesDeConvocatorias (Request $request, $id_convocatoria) {
+        try {
+
+            $convocatoria = Convocatoria::find($id_convocatoria);
+
+            if( !$convocatoria ) {
+                $payload = [
+                    'success' => false,
+                    'msg' => 'No se encontró la convocatoria',
+                ];
+                return response()->json($payload, 400);
+            }
+            $entidades = $convocatoria->entidadesTecnicas;
+
+            return response()->json([
+                'success' => true,
+                'data' => $entidades
+            ], 200);
+
+        } catch (\Throwable $th) {
+            $payload = [
+                'success' => false,
+                'error' => $th->getMessage(),
+                'msg' => 'Error al listar entidades de convocatoria, hable con el administrador'
+            ];
+            return response()->json($payload, 500);
+        }
+    }
+
     public function createdConvocatoria (Request $request) {
         try {
 

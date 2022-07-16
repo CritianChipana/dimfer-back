@@ -50,6 +50,7 @@ Route::delete('/negociacion/{id}', [NegociacionController::class, 'deleteNegocia
 
 //CONVOCATORIA
 Route::get('/convocatoria', [ConvocatoriaController::class, 'convocatorias']);
+Route::get('/convocatoria/{id_convocatoria}', [ConvocatoriaController::class, 'entidadesDeConvocatorias']);
 Route::post('/convocatoria', [ConvocatoriaController::class, 'createdConvocatoria']);
 Route::put('/convocatoria/{id}', [ConvocatoriaController::class, 'updatedConvocatoria']);
 Route::delete('/convocatoria/{id}', [ConvocatoriaController::class, 'deleteConvocatoria']);

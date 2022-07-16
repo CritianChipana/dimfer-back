@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConvocatoriaEntidadTecnicasTable extends Migration
+class CreateConvocatoriaEntidadTecnicaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateConvocatoriaEntidadTecnicasTable extends Migration
      */
     public function up()
     {
-        Schema::create('convocatoria_entidad_tecnicas', function (Blueprint $table) {
+        Schema::create('convocatoria_entidad_tecnica', function (Blueprint $table) {
             $table->id();
             //entidad_tecnica_id
             $table->unsignedBigInteger('entidad_tecnica_id');
@@ -32,6 +32,6 @@ class CreateConvocatoriaEntidadTecnicasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('convocatoria_entidad_tecnicas');
+        Schema::dropIfExists('convocatoria_entidad_tecnica');
     }
 }

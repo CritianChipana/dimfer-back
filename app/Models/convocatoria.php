@@ -19,4 +19,10 @@ class Convocatoria extends Model
         "porcentaje_cantidad_de_modulos_eficacia",
         "estado",
     ];
+    // relacion muchos a muchos
+    public function entidadesTecnicas()
+    {
+        return $this->belongsToMany('App\Models\EntidadTecnica');
+        // return $this->belongsToMany(EntidadTecnica::class);
+    }
 }
