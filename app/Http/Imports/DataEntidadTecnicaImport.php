@@ -2,6 +2,9 @@
 
 namespace App\Http\Imports;
 
+use App\Models\Comentario;
+use App\Models\Contacto;
+use App\Models\Convocatoria;
 use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -14,14 +17,9 @@ class DataEntidadTecnicaImport implements ToModel
     {
 
         if ($row[0] && $row[0] != 'RUC') {
-            // $ruc = intval($row[4]);
-            // // dd($row[4]);
+
             $ruc = trim($row[0]);
-            // $ruc = implode($row[4]);
-            // $ruc = trim( $row[4]."a papapepa a ");
-            // $ruc = preg_replace("/[[:space:]]/","",trim($ruc));
-            // dd($ruc);
-            return new EntidadTecnica([
+            $data = [
                 'departamento_fiscal' => $row[10],
                 'departamento_real' => $row[12],
                 'direccion_fiscal' => $row[2],
@@ -48,7 +46,45 @@ class DataEntidadTecnicaImport implements ToModel
                 'verificado_direccion_real_gps' => $row[22] == 'VERDADERO' ? 1 : 0,
                 'vigencia' => $row[6],
                 'zona' => $row[4]
-            ]);
+            ];
+            $new_entidad = EntidadTecnica::create($data);
+
+            $cantidad_De_modulos = $row[17];
+            $cantidad_de_convocatoria = $row[18];
+
+            $array_convocatorias = explode(",", $cantidad_de_convocatoria);
+            $array_modulos = explode(',', $cantidad_De_modulos);
+            for ($i=0; $i <count($array_convocatorias) ; $i++) { 
+                $convocatoriaModelo = Convocatoria::where('nombre', $array_convocatorias[$i])->first();
+                if ($convocatoriaModelo) {
+                    $convocatoriaModelo->entidadesTecnicas()->attach($new_entidad->id, ['cantidad_de_modulos'=>$array_modulos[$i]]);
+                }
+            }
+
+            // crear contactos
+            $json_contacto = json_decode($row[27]);
+            // dd($json_contacto);
+            foreach ($json_contacto as $contacto) {
+                Contacto::create([
+                    'nombre' => $contacto->contactName,
+                    'telefono' => $contacto->contactTelephone,
+                    'email' => $contacto->emailContact,
+                    'entidad_tecnica_id' => $new_entidad->id
+                ]);
+            }
+            // crear comentario
+            $json_comentario = json_decode($row[28]);
+            // dd($json_comentario);
+            foreach ($json_comentario as $comentario) {
+                Comentario::create([
+                    'comentario' => $comentario->commentary,
+                    'convocatoria' => $comentario->convocatoria,
+                    'email_user' => $comentario->emailName,
+                    'entidad_tecnica_id' => $new_entidad->id
+                ]);
+            }
+
+            return null;
         }
     }
 }
