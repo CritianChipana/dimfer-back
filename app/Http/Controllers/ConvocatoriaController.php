@@ -18,7 +18,7 @@ class ConvocatoriaController extends Controller
             $convocatorias = Convocatoria::get();
             foreach ($convocatorias as $convocatoria) {
                 $convocatoria->entidadesTecnicas; 
-                $convocatoria->entidades_tecnicas = sizeof($convocatoria->entidadesTecnicas);
+                // $convocatoria->entidades_tecnicas = sizeof($convocatoria->entidadesTecnicas);
                 // $convocatoria->cantidad_de_modulos2 = $convocatorias_relacion->sum('cantidad_de_modulos');
             }
 
