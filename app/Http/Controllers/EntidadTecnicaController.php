@@ -14,7 +14,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class EntidadTecnicaController extends Controller
 {
 
-    public function entidadesTecnicas (Request $request) {
+    public function entidadesTecnicas(Request $request)
+    {
         try {
             $entidadesTecnicas = EntidadTecnica::get();
 
@@ -22,7 +23,6 @@ class EntidadTecnicaController extends Controller
                 'success' => true,
                 'data' => $entidadesTecnicas
             ], 200);
-
         } catch (\Throwable $th) {
             $payload = [
                 'success' => false,
@@ -31,9 +31,9 @@ class EntidadTecnicaController extends Controller
             ];
             return response()->json($payload, 500);
         }
-
     }
-    public function entidadesTecnicasByUser (Request $request) {
+    public function entidadesTecnicasByUser(Request $request)
+    {
         try {
             $email_user = $request->header('email_user');
             $entidadesTecnicas = EntidadTecnica::where('email_user', $email_user)->get();
@@ -42,7 +42,6 @@ class EntidadTecnicaController extends Controller
                 'success' => true,
                 'data' => $entidadesTecnicas
             ], 200);
-
         } catch (\Throwable $th) {
             $payload = [
                 'success' => false,
@@ -51,9 +50,9 @@ class EntidadTecnicaController extends Controller
             ];
             return response()->json($payload, 500);
         }
-
     }
-    public function createdEntidadTecnica (Request $request) {
+    public function createdEntidadTecnica(Request $request)
+    {
         try {
 
             $existe_entidad_tecnica = EntidadTecnica::where('ruc', $request->ruc)->first();
@@ -71,7 +70,6 @@ class EntidadTecnicaController extends Controller
                 'success' => true,
                 'data' => $entidadTecnica
             ], 200);
-
         } catch (\Throwable $th) {
             //throw $th;
             $payload = [
@@ -82,8 +80,9 @@ class EntidadTecnicaController extends Controller
             return response()->json($payload, 500);
         }
     }
-    public function updatedEntidadTecnica (Request $request, $id) {
-        
+    public function updatedEntidadTecnica(Request $request, $id)
+    {
+
         try {
             $entidadTecnica = EntidadTecnica::find($id);
 
@@ -113,8 +112,9 @@ class EntidadTecnicaController extends Controller
             return response()->json($payload, 500);
         }
     }
-    public function deleteEntidadTecnica (Request $request, $id) {
-        
+    public function deleteEntidadTecnica(Request $request, $id)
+    {
+
         try {
             $entidadTecnica = EntidadTecnica::find($id);
 
@@ -132,7 +132,6 @@ class EntidadTecnicaController extends Controller
                 ];
                 return response()->json($payload, 400);
             }
-
         } catch (\Throwable $th) {
             //throw $th;
             $payload = [
@@ -143,12 +142,14 @@ class EntidadTecnicaController extends Controller
             return response()->json($payload, 500);
         }
     }
-    public function cargaEntidadTecnicaExcel (Request $request) {
+    public function cargaEntidadTecnicaExcel(Request $request)
+    {
         try {
 
-            if($request->hasFile('file')){
+            if ($request->hasFile('file')) {
                 $path = $request->file('file')->getRealPath();
-                Excel::import(new EntidadTecnicaImport , $path);
+                dd($path);
+                Excel::import(new EntidadTecnicaImport, $path);
             } else {
                 $payload = [
                     'success' => false,
@@ -162,7 +163,6 @@ class EntidadTecnicaController extends Controller
                 'success' => true,
                 'data' => 'Archivo cargado correctamente'
             ], 200);
-
         } catch (\Throwable $th) {
             $payload = [
                 'success' => false,
@@ -173,12 +173,13 @@ class EntidadTecnicaController extends Controller
         }
     }
 
-    public function cargaEntidadTecnica (Request $request) {
+    public function cargaEntidadTecnica(Request $request)
+    {
         try {
 
-            if($request->hasFile('file')){
+            if ($request->hasFile('file')) {
                 $path = $request->file('file')->getRealPath();
-                Excel::import(new DataEntidadTecnicaImport , $path);
+                Excel::import(new DataEntidadTecnicaImport, $path);
             } else {
                 $payload = [
                     'success' => false,
@@ -192,7 +193,6 @@ class EntidadTecnicaController extends Controller
                 'success' => true,
                 'data' => 'Archivo cargado correctamente'
             ], 200);
-
         } catch (\Throwable $th) {
             $payload = [
                 'success' => false,
