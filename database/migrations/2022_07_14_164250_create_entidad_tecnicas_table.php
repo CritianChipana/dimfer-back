@@ -21,8 +21,8 @@ class CreateEntidadTecnicasTable extends Migration
             $table->float('longitud_real_gps')->nullable();
             $table->string('email_user')->nullable();
             $table->string('estado')->nullable();
-            $table->string('foto_direccion_fiscal')->nullable();
-            $table->string('foto_direccion_real')->nullable();
+            $table->text('foto_direccion_fiscal')->nullable();
+            $table->text('foto_direccion_real')->nullable();
             $table->string('medio_de_contacto')->nullable();
             $table->string('proveedor_actual')->nullable();
             $table->string('provincia_fiscal')->nullable();

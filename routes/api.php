@@ -68,3 +68,6 @@ Route::delete('/delete/entidad/{id_convocatoria}/{id_entidadTecnica}', [Convocat
 Route::post('/entidad/excel', [EntidadTecnicaController::class, 'cargaEntidadTecnicaExcel']);
 //Carga de Convocatoria por excel
 Route::post('/convocatoria/excel', [ConvocatoriaController::class, 'cargaConvocatoriaExcel']);
+
+//CARGA DE DATOS ENTIDAD TECNICA
+Route::post('/entidad/carga', [EntidadTecnicaController::class, 'cargaEntidadTecnica']);

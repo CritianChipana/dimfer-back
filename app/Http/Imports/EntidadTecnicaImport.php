@@ -6,7 +6,6 @@ use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-use function PHPSTORM_META\type;
 
 class EntidadTecnicaImport implements ToModel
 {
