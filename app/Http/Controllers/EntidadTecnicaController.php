@@ -56,6 +56,14 @@ class EntidadTecnicaController extends Controller
     public function createdEntidadTecnica (Request $request) {
         try {
 
+            $existe_entidad_tecnica = EntidadTecnica::where('ruc', $request->ruc)->first();
+            if ($existe_entidad_tecnica) {
+                $payload = [
+                    'success' => false,
+                    'msg' => 'Ya existe una entidad técnica registrada con ese email'
+                ];
+                return response()->json($payload, 400);
+            }
             $data = $request->all();
             $entidadTecnica = EntidadTecnica::create($data);
 
