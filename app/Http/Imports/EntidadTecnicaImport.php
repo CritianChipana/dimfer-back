@@ -6,6 +6,8 @@ use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\ToModel;
 
+use function PHPSTORM_META\type;
+
 class EntidadTecnicaImport implements ToModel
 {
     public function model(array $row)
@@ -17,8 +19,15 @@ class EntidadTecnicaImport implements ToModel
         //     dd($row[0]);
         // }
         if ($row[0] && $row[0] != 'ZONA') {
+            // $ruc = intval($row[4]);
+            // // dd($row[4]);
+            $ruc = trim($row[4]);
+            // $ruc = implode($row[4]);
+            // $ruc = trim( $row[4]."a papapepa a ");
+            // $ruc = preg_replace("/[[:space:]]/","",trim($ruc));
+            // dd($ruc);
             return new EntidadTecnica([
-                // 'name' => $row[0],
+                // 'name' => $row[0],   
                 // 'email' => $row[1],
                 'departamento_fiscal' => $row[7],
                 'departamento_real' => $row[14],
@@ -38,7 +47,7 @@ class EntidadTecnicaImport implements ToModel
                 // 'provincia_real' => $row[1],
                 'razon_social' => $row[3],
                 'representante_legal' => $row[6],
-                'ruc' => $row[4],
+                'ruc' => $ruc,
                 'tiene_grupo' => $row[5],
                 'tipo_de_cliente' => $row[25],
                 'tipo_de_construccion' => $row[28],

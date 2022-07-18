@@ -37,7 +37,8 @@ class ConvocatoriaImport implements ToModel
 
         if ($row[0] && $row[0] != 'RUC') {
             // dd($row[0]);
-            $entidad_tecnica = EntidadTecnica::where('ruc', $row[0])->first();
+            $ruc = str_replace(' ','',$row[0]);
+            $entidad_tecnica = EntidadTecnica::where('ruc', $ruc)->first();
             // dd($entidad_tecnica);
             for ($i=0; $i <count($this->convocatorias) ; $i++) {
                 if (isset($row[$i+2])) {

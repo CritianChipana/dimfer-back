@@ -15,11 +15,16 @@ class ConvocatoriaController extends Controller
     {
         try {
 
-            $convocatoria = Convocatoria::get();
+            $convocatorias = Convocatoria::get();
+            foreach ($convocatorias as $convocatoria) {
+                $convocatoria->entidadesTecnicas; 
+                $convocatoria->entidades_tecnicas = sizeof($convocatoria->entidadesTecnicas);
+                // $convocatoria->cantidad_de_modulos2 = $convocatorias_relacion->sum('cantidad_de_modulos');
+            }
 
             return response()->json([
                 'success' => true,
-                'data' => $convocatoria
+                'data' => $convocatorias
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
