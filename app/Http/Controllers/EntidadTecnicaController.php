@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Imports\EntidadTecnicaImport;
 use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+// use Maatwebsite\Excel\Facades\Excel;
+// use Excel;
 
 class EntidadTecnicaController extends Controller
 {
@@ -125,6 +130,35 @@ class EntidadTecnicaController extends Controller
                 'success' => false,
                 'error' => $th->getMessage(),
                 'msg' => 'Error al eliminar la entidad técnica, hable con el administrador'
+            ];
+            return response()->json($payload, 500);
+        }
+    }
+    public function cargaEntidadTecnicaExcel (Request $request) {
+        try {
+
+            if($request->hasFile('file')){
+                $path = $request->file('file')->getRealPath();
+                Excel::import(new EntidadTecnicaImport , $path);
+            } else {
+                $payload = [
+                    'success' => false,
+                    'error' => 'No se encontró el archivo',
+                    'msg' => 'Error al cargar el archivo'
+                ];
+                return response()->json($payload, 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => 'Archivo cargado correctamente'
+            ], 200);
+
+        } catch (\Throwable $th) {
+            $payload = [
+                'success' => false,
+                'error' => $th->getMessage(),
+                'msg' => 'Error al crear la entidad técnica por excel, hable con el administrador'
             ];
             return response()->json($payload, 500);
         }

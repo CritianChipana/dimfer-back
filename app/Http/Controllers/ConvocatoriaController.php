@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Imports\ConvocatoriaImport;
 use App\Models\Convocatoria;
 use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ConvocatoriaController extends Controller
 {
@@ -308,20 +310,20 @@ class ConvocatoriaController extends Controller
                 return response()->json($payload, 400);
             }
 
-            $payload = [
-                'cantidad_de_modulos' => $cantidad_de_modulos,
-                'fecha_de_facturacion' => $request->fecha_de_facturacion,
-                'monto_en_soles' => $request->monto_en_soles,
-                'convocatoria' => $request->convocatoria,
-                'departamento_de_despacho' => $request->departamento_de_despacho,
-                'entidad_tecnica' => $request->entidad_tecnica,
-                'estado_de_negociacion' => $request->estado_de_negociacion,
-                'etapa_de_contratacion' => $request->etapa_de_contratacion,
-                'gano_entidad_tecnica' => $request->gano_entidad_tecnica,
-                'incluye_puerta_principal' => $request->incluye_puerta_principal,
-                'perdio_entidad_tecnica' => $request->perdio_entidad_tecnica,
-                'porcentaje_de_cierre' => $request->porcentaje_de_cierre
-            ];
+            // $payload = [
+            //     'cantidad_de_modulos' => $cantidad_de_modulos,
+            //     'fecha_de_facturacion' => $request->fecha_de_facturacion,
+            //     'monto_en_soles' => $request->monto_en_soles,
+            //     'convocatoria' => $request->convocatoria,
+            //     'departamento_de_despacho' => $request->departamento_de_despacho,
+            //     'entidad_tecnica' => $request->entidad_tecnica,
+            //     'estado_de_negociacion' => $request->estado_de_negociacion,
+            //     'etapa_de_contratacion' => $request->etapa_de_contratacion,
+            //     'gano_entidad_tecnica' => $request->gano_entidad_tecnica,
+            //     'incluye_puerta_principal' => $request->incluye_puerta_principal,
+            //     'perdio_entidad_tecnica' => $request->perdio_entidad_tecnica,
+            //     'porcentaje_de_cierre' => $request->porcentaje_de_cierre
+            // ];
 
             DB::select(
                 'Update convocatoria_entidad_tecnica 
@@ -410,6 +412,36 @@ class ConvocatoriaController extends Controller
                 'success' => false,
                 'error' => $th->getMessage(),
                 'msg' => 'Error al crear negociacion de la entidades tecnica, hable con el administrador'
+            ];
+            return response()->json($payload, 500);
+        }
+    }
+
+    public function cargaConvocatoriaExcel (Request $request) {
+        try {
+
+            if($request->hasFile('file')){
+                $path = $request->file('file')->getRealPath();
+                Excel::import(new ConvocatoriaImport , $path);
+            } else {
+                $payload = [
+                    'success' => false,
+                    'error' => 'No se encontró el archivo',
+                    'msg' => 'Error al cargar el archivo'
+                ];
+                return response()->json($payload, 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => 'Convocatorias cargado correctamente'
+            ], 200);
+
+        } catch (\Throwable $th) {
+            $payload = [
+                'success' => false,
+                'error' => $th->getMessage(),
+                'msg' => 'Error al crear la entidad técnica por excel, hable con el administrador'
             ];
             return response()->json($payload, 500);
         }

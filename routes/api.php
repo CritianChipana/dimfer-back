@@ -63,3 +63,8 @@ Route::post('/add/entidad', [ConvocatoriaController::class, 'addEntidadTecnica']
 Route::post('/get/entidad', [ConvocatoriaController::class, 'getEntidadTecnica']);
 Route::get('/entidadSinNegociacion/{id_convocatoria}', [ConvocatoriaController::class, 'entidadSinNegociacion']);
 Route::delete('/delete/entidad/{id_convocatoria}/{id_entidadTecnica}', [ConvocatoriaController::class, 'deleteEntidadTecnica']);
+
+//CARGA DE EntidadTecnica por excel
+Route::post('/entidad/excel', [EntidadTecnicaController::class, 'cargaEntidadTecnicaExcel']);
+//Carga de Convocatoria por excel
+Route::post('/convocatoria/excel', [ConvocatoriaController::class, 'cargaConvocatoriaExcel']);
