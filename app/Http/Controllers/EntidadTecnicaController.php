@@ -188,18 +188,21 @@ class EntidadTecnicaController extends Controller
                         'vigencia' => isset($entidad['VIGENTE']) ? $entidad['VIGENTE'] : '',
                         'zona' =>isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
-                    $newEntidad = EntidadTecnica::create($payload);
+
+                    $newEntidad_id = EntidadTecnica::insertGetId($payload);
+
+
                     $payload_contact_1 = [
                         'nombre' => isset($entidad['NOMBRE DEL CONTACTO']) ? $entidad['NOMBRE DEL CONTACTO'] : '',
                         'email' => isset($entidad['EMail']) ? $entidad['EMail'] : '',
                         'telefono' => isset($entidad['Celular']) ? $entidad['Celular'] : '',
-                        'entidad_tecnica_id' => $newEntidad->id,
+                        'entidad_tecnica_id' => $newEntidad_id,
                     ];
                     $payload_contact_2 = [
                         'nombre' => isset($entidad['NOMBRE DEL CONTACTO_1']) ? $entidad['NOMBRE DEL CONTACTO_1'] : '',
                         'email' => isset($entidad['EMail_1']) ? $entidad['EMail_1'] : '',
                         'telefono' => isset($entidad['Celular_1']) ? $entidad['Celular_1'] : '',
-                        'entidad_tecnica_id' => $newEntidad->id,
+                        'entidad_tecnica_id' => $newEntidad_id,
                     ];
 
                     if(isset($entidad['NOMBRE DEL CONTACTO']) || isset($entidad['EMail']) || isset($entidad['Celular'])){
