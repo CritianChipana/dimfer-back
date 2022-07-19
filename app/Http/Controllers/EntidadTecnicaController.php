@@ -248,17 +248,14 @@ class EntidadTecnicaController extends Controller
                 $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
                 if (!$existe_entidad_tecnica) {
                     $payload = [
-                        // departamento_fiscal
-                        // CONTACTOS
-                        //COMENTARIOS
                         'departamento_fiscal' => isset($entidad['DEPARTAMENTO FISCAL']) ? $entidad['DEPARTAMENTO FISCAL'] : '',
                         'departamento_real' => isset($entidad['DEPARTAMENTO REAL']) ? $entidad['DEPARTAMENTO REAL'] : '',
                         'direccion_fiscal' => isset($entidad['DIRECIÓN FISCAL']) ? $entidad['DIRECIÓN FISCAL'] : '',
-                        // 'latitud_fiscal_gps'  => isset($entidad['LATITUD FISCAL']) ? (float)$entidad['LATITUD FISCAL'] : '',
-                        // 'longitud_fiscal_gps'  => isset($entidad['LONGITUD FISCAL']) ? (float)$entidad['LONGITUD FISCAL'] : '',
+                        'latitud_fiscal_gps'  => isset($entidad['LATITUD FISCAL']) ? (float)$entidad['LATITUD FISCAL'] : 0,
+                        'longitud_fiscal_gps'  => isset($entidad['LONGITUD FISCAL']) ? (float)$entidad['LONGITUD FISCAL'] : 0,
                         'direccion_real'  => isset($entidad['DIRECIÓN REAL']) ? $entidad['DIRECIÓN REAL'] : '',
-                        // 'latitud_real_gps'  => isset($entidad['LATITUD REAL']) ? (float)$entidad['LATITUD REAL'] : '',
-                        // 'longitud_real_gps'  => isset($entidad['LONGITUD REAL']) ? (float)$entidad['LONGITUD REAL'] : '',
+                        'latitud_real_gps'  => isset($entidad['LATITUD REAL']) ? (float)$entidad['LATITUD REAL'] : 0,
+                        'longitud_real_gps'  => isset($entidad['LONGITUD REAL']) ? (float)$entidad['LONGITUD REAL'] : 0,
                         'email_user'  => isset($entidad['EMAIL']) ? $entidad['EMAIL'] : '',
                         'estado'  => isset($entidad['ESTADO']) ? $entidad['ESTADO'] : '',
                         'foto_direccion_fiscal'  => isset($entidad['FOTO DIRECCION FISCAL']) ? $entidad['FOTO DIRECCION FISCAL'] : '',
@@ -273,8 +270,8 @@ class EntidadTecnicaController extends Controller
                         'tiene_grupo'  => isset($entidad['Departamento']) ? $entidad['Departamento'] : '',
                         'tipo_de_cliente'  => isset($entidad['TIPO DE CLIENTE']) ? $entidad['TIPO DE CLIENTE'] : '',
                         'tipo_de_construccion'  => isset($entidad['TIPO DE CONSTRUCCION']) ? $entidad['TIPO DE CONSTRUCCION'] : '',
-                        // 'verificado_direccion_fiscal_gps'  => $entidad['VERIFICADO DIRECCION FISCAL']=='VERDADERO' ? true : false,
-                        // 'verificado_direccion_real_gps'  => isset($entidad['VERIFICADO DIRECCION REAL']) == 'VERDADERO' ? true : false,
+                        'verificado_direccion_fiscal_gps'  => $entidad['VERIFICADO DIRECCION FISCAL']=='VERDADERO' ? true : false,
+                        'verificado_direccion_real_gps'  => isset($entidad['VERIFICADO DIRECCION REAL']) == 'VERDADERO' ? true : false,
                         'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
