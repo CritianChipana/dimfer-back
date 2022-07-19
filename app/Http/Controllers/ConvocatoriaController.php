@@ -189,7 +189,7 @@ class ConvocatoriaController extends Controller
                 return response()->json($payload, 400);
             }
 
-            $convocatoria->entidadesTecnicas()->attach($id_entidadTecnica, ['cantidad_de_modulos' => $cantidad_de_modulos]);
+            $convocatoria->entidadesTecnicas()->attach($id_entidadTecnica, ['cantidad_de_modulos' => (int)$cantidad_de_modulos]);
 
             return response()->json([
                 'success' => true,
@@ -478,7 +478,7 @@ class ConvocatoriaController extends Controller
                                         $existe_entidad_tecnica->id
                                     ]);
                                 if(!$existe_relacion) {
-                                    $existe_entidad_tecnica->convocatorias()->attach($existe_convocatoria->id, ['cantidad_de_modulos'=> $entidad[$convocatorias[$i]]]);
+                                    $existe_entidad_tecnica->convocatorias()->attach($existe_convocatoria->id, ['cantidad_de_modulos'=> (int)$entidad[$convocatorias[$i]]]);
                                 } else {
                                     DB::select(
                                         'Update convocatoria_entidad_tecnica 

@@ -245,6 +245,7 @@ class EntidadTecnicaController extends Controller
 
             $entidades = $request->data;
             foreach ($entidades as $entidad) {
+                logger($entidad);
                 $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
                 if (!$existe_entidad_tecnica) {
                     $payload = [
@@ -285,7 +286,7 @@ class EntidadTecnicaController extends Controller
                     for ($i = 0; $i < count($array_convocatorias); $i++) {
                         $convocatoriaModelo = Convocatoria::where('nombre', $array_convocatorias[$i])->first();
                         if ($convocatoriaModelo) {
-                            $convocatoriaModelo->entidadesTecnicas()->attach($newEntidad->id, ['cantidad_de_modulos' => $array_modulos[$i]]);
+                            $convocatoriaModelo->entidadesTecnicas()->attach($newEntidad->id, ['cantidad_de_modulos' => (int)$array_modulos[$i]]);
                         }
                     }
                     //crear contactos
