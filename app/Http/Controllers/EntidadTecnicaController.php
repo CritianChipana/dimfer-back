@@ -280,7 +280,13 @@ class EntidadTecnicaController extends Controller
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
                     
-                    $newEntidad_id = EntidadTecnica::insertGetId($payload);
+                    // $newEntidad_id = EntidadTecnica::insertGetId($payload);
+                    $newEntidad_id = new EntidadTecnica();
+                    $newEntidad_id->ruc = isset($entidad['RUC']) ? $entidad['RUC'] : '';
+                    $newEntidad_id->save();
+                    // $newEntidad_id->razon_social = isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : ''
+
+
                     
                /*      //Crear relacion
                     $cantidad_De_modulos = isset($entidad['CANTIDAD DE MODULOS']) ? $entidad['CANTIDAD DE MODULOS'] : '';
