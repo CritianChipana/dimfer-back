@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Imports\DataEntidadTecnicaImport;
 use App\Http\Imports\EntidadTecnicaImport;
+use App\Models\Comentario;
+use App\Models\Contacto;
+use App\Models\Convocatoria;
 use App\Models\EntidadTecnica;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -146,22 +149,73 @@ class EntidadTecnicaController extends Controller
     {
         try {
 
-            if ($request->hasFile('file')) {
-                $path = $request->file('file')->getRealPath();
-                dd($path);
-                Excel::import(new EntidadTecnicaImport, $path);
-            } else {
-                $payload = [
-                    'success' => false,
-                    'error' => 'No se encontró el archivo',
-                    'msg' => 'Error al cargar el archivo'
-                ];
-                return response()->json($payload, 400);
+            // if ($request->hasFile('file')) {
+            //     $path = $request->file('file')->getRealPath();
+            //     // dd($path);
+            //     Excel::import(new EntidadTecnicaImport, $path);
+            // } else {
+            //     $payload = [ // excel to json
+            //         'success' => false,
+            //         'error' => 'No se encontró el archivo',
+            //         'msg' => 'Error al cargar el archivo'
+            //     ];
+            //     return response()->json($payload, 400);
+            // }
+
+            $entidades = $request->data;
+            foreach ($entidades as $entidad) {
+                $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
+                if (!$existe_entidad_tecnica) {
+                    $payload = [
+                        'departamento_fiscal' => isset($entidad['Departamento']) ? trim($entidad['Departamento']) : '',
+                        'departamento_real' => isset($entidad['DEPARTAMENTO - REAL']) ?$entidad['DEPARTAMENTO - REAL']: '',
+                        'direccion_fiscal' => isset($entidad['DIRECCION FISCAL']) ? $entidad['DIRECCION FISCAL'] : '',
+                        'latitud_fiscal_gps' => isset($entidad['LATITUD GPS']) ? (float)$entidad['LATITUD GPS'] : 0,
+                        'longitud_fiscal_gps' => isset($entidad['LONGITUD GSP']) ? (float)$entidad['LONGITUD GSP'] : 0,
+                        'direccion_real' => isset($entidad['DIRECCION REAL']) ? $entidad['DIRECCION REAL'] : '',
+                        'latitud_real_gps' => isset($entidad['LATITUD GPS_1']) ? (float)$entidad['LATITUD GPS_1'] : 0,
+                        'longitud_real_gps' => isset($entidad['LONGITUD GSP_1']) ? (float)$entidad['LONGITUD GSP_1'] : 0,
+                        'email_user' => isset($entidad['EMAIL DEL USUARIO']) ? $entidad['EMAIL DEL USUARIO'] : '',
+                        'estado' => isset($entidad['ESTADO']) ? $entidad['ESTADO'] : '',
+                        'proveedor_actual' => isset($entidad['PROVEEDOR ACTUAL']) ? $entidad['PROVEEDOR ACTUAL'] : '',
+                        'provincia_fiscal' => isset($entidad['Provincia']) ? $entidad['Provincia'] : '',
+                        'razon_social' => isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : '',
+                        'representante_legal' => isset($entidad['Rep Legal/persona de contacto']) ? $entidad['Rep Legal/persona de contacto'] : '',
+                        'ruc' => isset($entidad['RUC']) ? $entidad['RUC'] : '',
+                        'tiene_grupo' => isset($entidad['PERTENECE A UN GRUPO?']) ? $entidad['PERTENECE A UN GRUPO?'] : '',
+                        'tipo_de_cliente' => isset($entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE']) ? $entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE'] : '',
+                        'tipo_de_construccion' => isset($entidad['TIPO DE CONSTRUCCION (CSP/AVN)']) ? $entidad['TIPO DE CONSTRUCCION (CSP/AVN)'] : '',
+                        'vigencia' => isset($entidad['VIGENTE']) ? $entidad['VIGENTE'] : '',
+                        'zona' =>isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
+                    ];
+                    $newEntidad = EntidadTecnica::create($payload);
+                    $payload_contact_1 = [
+                        'nombre' => isset($entidad['NOMBRE DEL CONTACTO']) ? $entidad['NOMBRE DEL CONTACTO'] : '',
+                        'email' => isset($entidad['EMail']) ? $entidad['EMail'] : '',
+                        'telefono' => isset($entidad['Celular']) ? $entidad['Celular'] : '',
+                        'entidad_tecnica_id' => $newEntidad->id,
+                    ];
+                    $payload_contact_2 = [
+                        'nombre' => isset($entidad['NOMBRE DEL CONTACTO_1']) ? $entidad['NOMBRE DEL CONTACTO_1'] : '',
+                        'email' => isset($entidad['EMail_1']) ? $entidad['EMail_1'] : '',
+                        'telefono' => isset($entidad['Celular_1']) ? $entidad['Celular_1'] : '',
+                        'entidad_tecnica_id' => $newEntidad->id,
+                    ];
+
+                    if(isset($entidad['NOMBRE DEL CONTACTO']) || isset($entidad['EMail']) || isset($entidad['Celular'])){
+                        Contacto::create($payload_contact_1);
+                    }
+                    if(isset($entidad['NOMBRE DEL CONTACTO_1']) || isset($entidad['EMail_1']) || isset($entidad['Celular_1'])){
+                        Contacto::create($payload_contact_2);
+                    }   
+                    // dd($entidad['RUC']);
+                }
             }
+            // $data = json_decode($data);
 
             return response()->json([
                 'success' => true,
-                'data' => 'Archivo cargado correctamente'
+                'data' => 'Se creo correctamente la entidad técnica'
             ], 200);
         } catch (\Throwable $th) {
             $payload = [
@@ -177,16 +231,98 @@ class EntidadTecnicaController extends Controller
     {
         try {
 
-            if ($request->hasFile('file')) {
-                $path = $request->file('file')->getRealPath();
-                Excel::import(new DataEntidadTecnicaImport, $path);
-            } else {
-                $payload = [
-                    'success' => false,
-                    'error' => 'No se encontró el archivo',
-                    'msg' => 'Error al cargar el archivo'
-                ];
-                return response()->json($payload, 400);
+            // if ($request->hasFile('file')) {
+            //     $path = $request->file('file')->getRealPath();
+            //     Excel::import(new DataEntidadTecnicaImport, $path);
+            // } else {
+            //     $payload = [
+            //         'success' => false,
+            //         'error' => 'No se encontró el archivo',
+            //         'msg' => 'Error al cargar el archivo'
+            //     ];
+            //     return response()->json($payload, 400);
+            // }
+
+            $entidades = $request->data;
+            foreach ($entidades as $entidad) {
+                $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
+                if (!$existe_entidad_tecnica) {
+                    $payload = [
+                        // departamento_fiscal
+                        // CONTACTOS
+                        //COMENTARIOS
+                        'departamento_fiscal' => isset($entidad['DEPARTAMENTO FISCAL']) ? $entidad['DEPARTAMENTO FISCAL'] : '',
+                        'departamento_real' => isset($entidad['DEPARTAMENTO REAL']) ? $entidad['DEPARTAMENTO REAL'] : '',
+                        'direccion_fiscal' => isset($entidad['DIRECIÓN FISCAL']) ? $entidad['DIRECIÓN FISCAL'] : '',
+                        // 'latitud_fiscal_gps'  => isset($entidad['LATITUD FISCAL']) ? (float)$entidad['LATITUD FISCAL'] : '',
+                        // 'longitud_fiscal_gps'  => isset($entidad['LONGITUD FISCAL']) ? (float)$entidad['LONGITUD FISCAL'] : '',
+                        'direccion_real'  => isset($entidad['DIRECIÓN REAL']) ? $entidad['DIRECIÓN REAL'] : '',
+                        // 'latitud_real_gps'  => isset($entidad['LATITUD REAL']) ? (float)$entidad['LATITUD REAL'] : '',
+                        // 'longitud_real_gps'  => isset($entidad['LONGITUD REAL']) ? (float)$entidad['LONGITUD REAL'] : '',
+                        'email_user'  => isset($entidad['EMAIL']) ? $entidad['EMAIL'] : '',
+                        'estado'  => isset($entidad['ESTADO']) ? $entidad['ESTADO'] : '',
+                        'foto_direccion_fiscal'  => isset($entidad['FOTO DIRECCION FISCAL']) ? $entidad['FOTO DIRECCION FISCAL'] : '',
+                        'foto_direccion_real'  => isset($entidad['FOTO DIRECCION REAL']) ? $entidad['FOTO DIRECCION REAL'] : '',
+                        'medio_de_contacto'  => isset($entidad['MEDIO DE CONTACTO']) ? $entidad['MEDIO DE CONTACTO'] : '',
+                        'proveedor_actual'  => isset($entidad['PROVEEDOR ACTUAL']) ? $entidad['PROVEEDOR ACTUAL'] : '',
+                        'provincia_fiscal'  => isset($entidad['PROVINCIA FISCAL']) ? $entidad['PROVINCIA FISCAL'] : '',
+                        'provincia_real'  => isset($entidad['PROVINCIA REAL']) ? $entidad['PROVINCIA REAL'] : '',
+                        'razon_social'  => isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : '',
+                        'representante_legal'  => isset($entidad['REPRESENTANTE LEGAL']) ? $entidad['REPRESENTANTE LEGAL'] : '',
+                        'ruc'  => isset($entidad['RUC']) ? $entidad['RUC'] : '',
+                        'tiene_grupo'  => isset($entidad['Departamento']) ? $entidad['Departamento'] : '',
+                        'tipo_de_cliente'  => isset($entidad['TIPO DE CLIENTE']) ? $entidad['TIPO DE CLIENTE'] : '',
+                        'tipo_de_construccion'  => isset($entidad['TIPO DE CONSTRUCCION']) ? $entidad['TIPO DE CONSTRUCCION'] : '',
+                        // 'verificado_direccion_fiscal_gps'  => $entidad['VERIFICADO DIRECCION FISCAL']=='VERDADERO' ? true : false,
+                        // 'verificado_direccion_real_gps'  => isset($entidad['VERIFICADO DIRECCION REAL']) == 'VERDADERO' ? true : false,
+                        'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
+                        'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
+                    ];
+                    $newEntidad = EntidadTecnica::create($payload);
+                    //Crear relacion
+                    $cantidad_De_modulos = isset($entidad['CANTIDAD DE MODULOS']) ? $entidad['CANTIDAD DE MODULOS'] : '';
+                    $cantidad_de_convocatoria = isset($entidad['CANTIDAD DE CONVOCATORIAS']) ? $entidad['CANTIDAD DE CONVOCATORIAS'] : '';
+    
+                    $array_convocatorias = explode(",", $cantidad_de_convocatoria);
+                    $array_modulos = explode(',', $cantidad_De_modulos);
+                    for ($i = 0; $i < count($array_convocatorias); $i++) {
+                        $convocatoriaModelo = Convocatoria::where('nombre', $array_convocatorias[$i])->first();
+                        if ($convocatoriaModelo) {
+                            $convocatoriaModelo->entidadesTecnicas()->attach($newEntidad->id, ['cantidad_de_modulos' => $array_modulos[$i]]);
+                        }
+                    }
+                    //crear contactos
+                    $json_contactos = isset($entidad['CONTACTOS']) ? json_decode($entidad['CONTACTOS']) : [];
+            
+                    foreach($json_contactos as $key => $value){
+                        logger('================');
+                        // logger($json_contactos[$key]->);
+                        $payload_contact_1 = [
+                            'nombre' => isset($json_contactos[$key]->contactTelephone) ? $json_contactos[$key]->contactTelephone  : '',
+                            'email' => isset($json_contactos[$key]->emailContact) ? $json_contactos[$key]->emailContact : '',
+                            'telefono' => isset($json_contactos[$key]->contactName) ? $json_contactos[$key]->contactName : '',
+                            'entidad_tecnica_id' => $newEntidad->id,
+                        ];
+                        if(isset($json_contactos[$key]->contactTelephone) || isset($json_contactos[$key]->emailContact) || isset($json_contactos[$key]->contactName)){
+                            Contacto::create($payload_contact_1);
+                        }
+                    }
+                    // crear comentarios
+                    $json_comentarios = isset($entidad['COMENTARIOS']) ? json_decode($entidad['COMENTARIOS']) : [];
+                    // dd($json_comentarios);
+                    foreach($json_comentarios as $key => $value){
+                        $payload_comentario = [
+                            'comentario' => isset($json_comentarios[$key]->commentary) ? $json_comentarios[$key]->commentary : '',
+                            'convocatoria' => isset($json_comentarios[$key]->convocatoria) ? $json_comentarios[$key]->convocatoria : '',
+                            'email_user' => isset($json_comentarios[$key]->emailName) ? $json_comentarios[$key]->emailName : '',
+                            'entidad_tecnica_id' => $newEntidad->id,
+                        ];
+                        if(isset($json_comentarios[$key]->commentary) || isset($json_comentarios[$key]->convocatoria) || isset($json_comentarios[$key]->emailName)){
+                            Comentario::create($payload_comentario);
+                        }
+                    }
+
+                }
             }
 
             return response()->json([
