@@ -279,13 +279,10 @@ class EntidadTecnicaController extends Controller
                         'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
-                    
-                    // $newEntidad_id = EntidadTecnica::insertGetId($payload);
-                    $newEntidad_id = new EntidadTecnica();
-                    $newEntidad_id->ruc = 'Gareca regresaaa';
-                    $newEntidad_id->save();
+                    logger('****************************');
+                    logger($entidad['RUC']);
                     // $newEntidad_id->razon_social = isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : ''
-
+                    logger('****************************');
 
                     
                /*      //Crear relacion
