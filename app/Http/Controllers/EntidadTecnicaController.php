@@ -276,6 +276,8 @@ class EntidadTecnicaController extends Controller
                         'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
+                    dd($payload);
+                    
                     $newEntidad = EntidadTecnica::create($payload);
                     //Crear relacion
                     $cantidad_De_modulos = isset($entidad['CANTIDAD DE MODULOS']) ? $entidad['CANTIDAD DE MODULOS'] : '';
