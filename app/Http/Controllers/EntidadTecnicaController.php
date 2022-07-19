@@ -276,6 +276,7 @@ class EntidadTecnicaController extends Controller
                         'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
+                    logger('----------- payload -----------');
                     logger($payload);
 
                     $newEntidad = EntidadTecnica::create($payload);
