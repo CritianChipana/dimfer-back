@@ -17,7 +17,7 @@ class ConvocatoriaController extends Controller
 
             $convocatorias = Convocatoria::get();
             foreach ($convocatorias as $convocatoria) {
-                $convocatoria->entidadesTecnicas; 
+                $convocatoria->entidadesTecnicas;
                 // $convocatoria->entidades_tecnicas = sizeof($convocatoria->entidadesTecnicas);
                 // $convocatoria->cantidad_de_modulos2 = $convocatorias_relacion->sum('cantidad_de_modulos');
             }
@@ -188,8 +188,8 @@ class ConvocatoriaController extends Controller
                 ];
                 return response()->json($payload, 400);
             }
-            
-            $convocatoria->entidadesTecnicas()->attach($id_entidadTecnica, ['cantidad_de_modulos'=>$cantidad_de_modulos]);
+
+            $convocatoria->entidadesTecnicas()->attach($id_entidadTecnica, ['cantidad_de_modulos' => $cantidad_de_modulos]);
 
             return response()->json([
                 'success' => true,
@@ -360,7 +360,8 @@ class ConvocatoriaController extends Controller
                     $request->porcentaje_de_cierre,
                     $id_convocatoria,
                     $id_entidadTecnica
-                ]);
+                ]
+            );
 
             return response()->json([
                 'success' => true,
@@ -375,7 +376,7 @@ class ConvocatoriaController extends Controller
             return response()->json($payload, 500);
         }
     }
-    
+
     public function getNegociacion(Request $request,  $id_convocatoria, $id_entidadTecnica)
     {
         try {
@@ -399,14 +400,16 @@ class ConvocatoriaController extends Controller
                 return response()->json($payload, 400);
             }
 
-            $response = DB::select('
+            $response = DB::select(
+                '
                 SELECT * FROM convocatoria_entidad_tecnica 
                 WHERE convocatoria_id = ? AND entidad_tecnica_id = ?',
                 [
                     $id_convocatoria,
                     $id_entidadTecnica
-                ]);
-            
+                ]
+            );
+
 
             return response()->json([
                 'success' => true,
@@ -422,26 +425,81 @@ class ConvocatoriaController extends Controller
         }
     }
 
-    public function cargaConvocatoriaExcel (Request $request) {
-        try {
+    public function cargaConvocatoriaExcel(Request $request)
+    {
 
-            if($request->hasFile('file')){
-                $path = $request->file('file')->getRealPath();
-                Excel::import(new ConvocatoriaImport , $path);
-            } else {
-                $payload = [
-                    'success' => false,
-                    'error' => 'No se encontró el archivo',
-                    'msg' => 'Error al cargar el archivo'
-                ];
-                return response()->json($payload, 400);
+        try {
+            $convocatorias = [];
+
+            // if($request->hasFile('file')){
+            //     $path = $request->file('file')->getRealPath();
+            //     Excel::import(new ConvocatoriaImport , $path);
+            // } else {
+            //     $payload = [
+            //         'success' => false,
+            //         'error' => 'No se encontró el archivo',
+            //         'msg' => 'Error al cargar el archivo'
+            //     ];
+            //     return response()->json($payload, 400);
+            // }
+
+            $head = $request->head;
+            $entidades = $request->data;
+
+            //crear convocatorias
+            $i = 0;
+            foreach ($head as $convocatoria) {
+                array_push($convocatorias, $convocatoria);
+                $i++;
+                if($i > 2){
+                    $existe_convcatoria = Convocatoria::where('nombre', $convocatoria)->first();
+                    if(!$existe_convcatoria) {
+                        $newConvocatoria = new Convocatoria();
+                        $newConvocatoria->nombre = $convocatoria;
+                        $newConvocatoria->save();
+                    }
+                }
             }
 
+
+            foreach ($entidades as $entidad) {
+                $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
+                if ($existe_entidad_tecnica) {
+                    // foreach ($head as $convocatoria) {
+                    for ($i=2; $i <count($convocatorias) ; $i++) {
+                        if(isset($entidad[$convocatorias[$i]])){
+                            $existe_convocatoria = Convocatoria::where('nombre', $convocatorias[$i])->first();
+                            if($existe_convocatoria) {
+                                $existe_relacion = DB::select(
+                                    'Select * from convocatoria_entidad_tecnica 
+                                    WHERE convocatoria_id = ? AND entidad_tecnica_id = ?',
+                                    [
+                                        $existe_convocatoria->id,
+                                        $existe_entidad_tecnica->id
+                                    ]);
+                                if(!$existe_relacion) {
+                                    $existe_entidad_tecnica->convocatorias()->attach($existe_convocatoria->id, ['cantidad_de_modulos'=> $entidad[$convocatorias[$i]]]);
+                                } else {
+                                    DB::select(
+                                        'Update convocatoria_entidad_tecnica 
+                                        SET cantidad_de_modulos = ?
+                                        WHERE convocatoria_id = ? AND entidad_tecnica_id = ?',
+                                        [
+                                            $entidad[$convocatorias[$i]],// cantidad de modulos
+                                            $existe_convocatoria->id,
+                                            $existe_entidad_tecnica->id
+                                        ]);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
             return response()->json([
                 'success' => true,
                 'data' => 'Convocatorias cargado correctamente'
             ], 200);
-
         } catch (\Throwable $th) {
             $payload = [
                 'success' => false,
