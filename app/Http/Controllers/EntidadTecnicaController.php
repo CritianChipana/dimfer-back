@@ -181,7 +181,7 @@ class EntidadTecnicaController extends Controller
                         'provincia_fiscal' => isset($entidad['Provincia']) ? $entidad['Provincia'] : '',
                         'razon_social' => isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : '',
                         'representante_legal' => isset($entidad['Rep Legal/persona de contacto']) ? $entidad['Rep Legal/persona de contacto'] : '',
-                        'ruc' => isset($entidad['RUC']) ? $entidad['RUC'] : '',
+                        'ruc' => isset($entidad['RUC']) ? strval($entidad['RUC']) : '',
                         'tiene_grupo' => isset($entidad['PERTENECE A UN GRUPO?']) ? $entidad['PERTENECE A UN GRUPO?'] : '',
                         'tipo_de_cliente' => isset($entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE']) ? $entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE'] : '',
                         'tipo_de_construccion' => isset($entidad['TIPO DE CONSTRUCCION (CSP/AVN)']) ? $entidad['TIPO DE CONSTRUCCION (CSP/AVN)'] : '',
@@ -189,20 +189,20 @@ class EntidadTecnicaController extends Controller
                         'zona' =>isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
 
-                    $newEntidad_id = EntidadTecnica::insertGetId($payload);
+                    $newEntidad = EntidadTecnica::create($payload);
 
 
                     $payload_contact_1 = [
                         'nombre' => isset($entidad['NOMBRE DEL CONTACTO']) ? $entidad['NOMBRE DEL CONTACTO'] : '',
                         'email' => isset($entidad['EMail']) ? $entidad['EMail'] : '',
                         'telefono' => isset($entidad['Celular']) ? $entidad['Celular'] : '',
-                        'entidad_tecnica_id' => $newEntidad_id,
+                        'entidad_tecnica_id' => $newEntidad,
                     ];
                     $payload_contact_2 = [
                         'nombre' => isset($entidad['NOMBRE DEL CONTACTO_1']) ? $entidad['NOMBRE DEL CONTACTO_1'] : '',
                         'email' => isset($entidad['EMail_1']) ? $entidad['EMail_1'] : '',
                         'telefono' => isset($entidad['Celular_1']) ? $entidad['Celular_1'] : '',
-                        'entidad_tecnica_id' => $newEntidad_id,
+                        'entidad_tecnica_id' => $newEntidad,
                     ];
 
                     if(isset($entidad['NOMBRE DEL CONTACTO']) || isset($entidad['EMail']) || isset($entidad['Celular'])){
@@ -270,7 +270,7 @@ class EntidadTecnicaController extends Controller
                         'provincia_real'  => isset($entidad['PROVINCIA REAL']) ? $entidad['PROVINCIA REAL'] : '',
                         'razon_social'  => isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : '',
                         'representante_legal'  => isset($entidad['REPRESENTANTE LEGAL']) ? $entidad['REPRESENTANTE LEGAL'] : '',
-                        'ruc'  => isset($entidad['RUC']) ? $entidad['RUC'] : '',
+                        'ruc'  => isset($entidad['RUC']) ? strval($entidad['RUC']) : '',
                         'tiene_grupo'  => isset($entidad['Departamento']) ? $entidad['Departamento'] : '',
                         'tipo_de_cliente'  => isset($entidad['TIPO DE CLIENTE']) ? $entidad['TIPO DE CLIENTE'] : '',
                         'tipo_de_construccion'  => isset($entidad['TIPO DE CONSTRUCCION']) ? $entidad['TIPO DE CONSTRUCCION'] : '',
@@ -280,15 +280,15 @@ class EntidadTecnicaController extends Controller
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
                     
-                    // $newEntidad_id = EntidadTecnica::insertGetId($payload);
-                    $newEntidad_id = new EntidadTecnica();
-                    $newEntidad_id->ruc = strval($entidad['RUC']);
-                    $newEntidad_id->save();
+                    $newEntidad = EntidadTecnica::create($payload);
+                    // $newEntidad_id = new EntidadTecnica();
+                    // $newEntidad_id->ruc = strval($entidad['RUC']);
+                    // $newEntidad_id->save();
                     // $newEntidad_id->razon_social = isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : ''
 
 
                     
-               /*      //Crear relacion
+                    //Crear relacion
                     $cantidad_De_modulos = isset($entidad['CANTIDAD DE MODULOS']) ? $entidad['CANTIDAD DE MODULOS'] : '';
                     $cantidad_de_convocatoria = isset($entidad['CANTIDAD DE CONVOCATORIAS']) ? $entidad['CANTIDAD DE CONVOCATORIAS'] : '';
     
@@ -329,7 +329,7 @@ class EntidadTecnicaController extends Controller
                         if(isset($json_comentarios[$key]->commentary) || isset($json_comentarios[$key]->convocatoria) || isset($json_comentarios[$key]->emailName)){
                             Comentario::create($payload_comentario);
                         }
-                    } */
+                    }
 
                 }
             }
