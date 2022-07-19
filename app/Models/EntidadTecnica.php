@@ -37,11 +37,11 @@ class EntidadTecnica extends Model
         'vigencia',
         'zona',
     ];
-/* 
+
     // relacion muchos a muchos
     public function convocatorias()
     {
         return $this->belongsToMany('App\Models\Convocatoria');
         // return $this->belongsToMany(Convocatoria::class);
-    } */
+    }
 }

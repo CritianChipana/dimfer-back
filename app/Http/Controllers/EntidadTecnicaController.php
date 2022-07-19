@@ -282,7 +282,7 @@ class EntidadTecnicaController extends Controller
                     
                     // $newEntidad_id = EntidadTecnica::insertGetId($payload);
                     $newEntidad_id = new EntidadTecnica();
-                    $newEntidad_id->ruc = isset($entidad['RUC']) ? $entidad['RUC'] : '';
+                    $newEntidad_id->ruc = 'Gareca regresaaa';
                     $newEntidad_id->save();
                     // $newEntidad_id->razon_social = isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : ''
 
