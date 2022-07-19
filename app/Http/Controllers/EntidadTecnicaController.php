@@ -279,11 +279,10 @@ class EntidadTecnicaController extends Controller
                         'vigencia'  => isset($entidad['VIGENCIA']) ? $entidad['VIGENCIA'] : '',
                         'zona'  => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
                     ];
-                    logger('----------- payload -----------');
-                    logger($payload);
-
-                    $newEntidad = EntidadTecnica::create($payload);
-                    //Crear relacion
+                    
+                    $newEntidad_id = EntidadTecnica::insertGetId($payload);
+                    
+               /*      //Crear relacion
                     $cantidad_De_modulos = isset($entidad['CANTIDAD DE MODULOS']) ? $entidad['CANTIDAD DE MODULOS'] : '';
                     $cantidad_de_convocatoria = isset($entidad['CANTIDAD DE CONVOCATORIAS']) ? $entidad['CANTIDAD DE CONVOCATORIAS'] : '';
     
@@ -324,7 +323,7 @@ class EntidadTecnicaController extends Controller
                         if(isset($json_comentarios[$key]->commentary) || isset($json_comentarios[$key]->convocatoria) || isset($json_comentarios[$key]->emailName)){
                             Comentario::create($payload_comentario);
                         }
-                    }
+                    } */
 
                 }
             }
