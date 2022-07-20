@@ -57,12 +57,13 @@ class EntidadTecnicaController extends Controller
     public function createdEntidadTecnica(Request $request)
     {
         try {
+            $ruc = trim(strval($request->ruc));
 
-            $existe_entidad_tecnica = EntidadTecnica::where('ruc', $request->ruc)->first();
+            $existe_entidad_tecnica = EntidadTecnica::where('ruc', $ruc)->first();
             if ($existe_entidad_tecnica) {
                 $payload = [
                     'success' => false,
-                    'msg' => 'Ya existe una entidad técnica registrada con ese email'
+                    'msg' => 'Ya existe una entidad técnica registrada con ese ruc'
                 ];
                 return response()->json($payload, 400);
             }
@@ -170,26 +171,26 @@ class EntidadTecnicaController extends Controller
                     $existe_entidad_tecnica = EntidadTecnica::where('ruc', strval($entidad['RUC']))->first();
                     if (!$existe_entidad_tecnica) {
                         $payload = [
-                            'departamento_fiscal' => isset($entidad['Departamento']) ? $entidad['Departamento'] : '',
-                            'departamento_real' => isset($entidad['DEPARTAMENTO - REAL']) ? $entidad['DEPARTAMENTO - REAL'] : '',
-                            'direccion_fiscal' => isset($entidad['DIRECCION FISCAL']) ? $entidad['DIRECCION FISCAL'] : '',
+                            'departamento_fiscal' => isset($entidad['Departamento']) ? trim(strval($entidad['Departamento'])) : '',
+                            'departamento_real' => isset($entidad['DEPARTAMENTO - REAL']) ? trim(strval($entidad['DEPARTAMENTO - REAL'])) : '',
+                            'direccion_fiscal' => isset($entidad['DIRECCION FISCAL']) ? trim(strval($entidad['DIRECCION FISCAL'])) : '',
                             'latitud_fiscal_gps' => isset($entidad['LATITUD GPS']) ? (float)$entidad['LATITUD GPS'] : 0,
                             'longitud_fiscal_gps' => isset($entidad['LONGITUD GSP']) ? (float)$entidad['LONGITUD GSP'] : 0,
-                            'direccion_real' => isset($entidad['DIRECCION REAL']) ? $entidad['DIRECCION REAL'] : '',
+                            'direccion_real' => isset($entidad['DIRECCION REAL']) ? trim(strval($entidad['DIRECCION REAL'])) : '',
                             'latitud_real_gps' => isset($entidad['LATITUD GPS_1']) ? (float)$entidad['LATITUD GPS_1'] : 0,
                             'longitud_real_gps' => isset($entidad['LONGITUD GSP_1']) ? (float)$entidad['LONGITUD GSP_1'] : 0,
-                            'email_user' => isset($entidad['EMAIL DEL USUARIO']) ? $entidad['EMAIL DEL USUARIO'] : '',
+                            'email_user' => isset($entidad['EMAIL DEL USUARIO']) ? trim(strval($entidad['EMAIL DEL USUARIO'])) : '',
                             'estado' => isset($entidad['ESTADO']) ? $entidad['ESTADO'] : '',
-                            'proveedor_actual' => isset($entidad['PROVEEDOR ACTUAL']) ? $entidad['PROVEEDOR ACTUAL'] : '',
-                            'provincia_fiscal' => isset($entidad['Provincia']) ? $entidad['Provincia'] : '',
+                            'proveedor_actual' => isset($entidad['PROVEEDOR ACTUAL']) ? trim(strval($entidad['PROVEEDOR ACTUAL'])) : '',
+                            'provincia_fiscal' => isset($entidad['Provincia']) ? trim(strval($entidad['Provincia'])) : '',
                             'razon_social' => isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : '',
                             'representante_legal' => isset($entidad['Rep Legal/persona de contacto']) ? $entidad['Rep Legal/persona de contacto'] : '',
-                            'ruc' => isset($entidad['RUC']) ? strval($entidad['RUC']) : '',
+                            'ruc' => isset($entidad['RUC']) ? trim(strval($entidad['RUC'])) : '',
                             'tiene_grupo' => isset($entidad['PERTENECE A UN GRUPO?']) ? $entidad['PERTENECE A UN GRUPO?'] : '',
-                            'tipo_de_cliente' => isset($entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE']) ? $entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE'] : '',
-                            'tipo_de_construccion' => isset($entidad['TIPO DE CONSTRUCCION (CSP/AVN)']) ? $entidad['TIPO DE CONSTRUCCION (CSP/AVN)'] : '',
-                            'vigencia' => isset($entidad['VIGENTE']) ? $entidad['VIGENTE'] : '',
-                            'zona' => isset($entidad['ZONA']) ? $entidad['ZONA'] : '',
+                            'tipo_de_cliente' => isset($entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE']) ? trim(strval($entidad['CLENTE/NO CLIENTE/TIPO DE CLIENTE'])) : '',
+                            'tipo_de_construccion' => isset($entidad['TIPO DE CONSTRUCCION (CSP/AVN)']) ? trim(strval($entidad['TIPO DE CONSTRUCCION (CSP/AVN)'])) : '',
+                            'vigencia' => isset($entidad['VIGENTE']) ? trim(strval($entidad['VIGENTE'])) : '',
+                            'zona' => isset($entidad['ZONA']) ? trim(strval($entidad['ZONA'])) : '',
                         ];
 
                         $newEntidad = EntidadTecnica::create($payload);
