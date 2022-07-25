@@ -289,11 +289,6 @@ class EntidadTecnicaController extends Controller
                         ];
 
                         $newEntidad = EntidadTecnica::create($payload);
-                        // $newEntidad_id = new EntidadTecnica();
-                        // $newEntidad_id->ruc = strval($entidad['RUC']);
-                        // $newEntidad_id->save();
-                        // $newEntidad_id->razon_social = isset($entidad['RAZON SOCIAL']) ? $entidad['RAZON SOCIAL'] : ''
-
 
 
                         //Crear relacion
