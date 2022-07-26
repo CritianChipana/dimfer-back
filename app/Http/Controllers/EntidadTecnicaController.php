@@ -92,7 +92,6 @@ class EntidadTecnicaController extends Controller
 
             if ($entidadTecnica) {
                 $data = $request->all();
-                dd($data);
                 $entidadTecnica->update($data);
 
                 return response()->json([
