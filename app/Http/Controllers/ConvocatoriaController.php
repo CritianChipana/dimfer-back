@@ -464,7 +464,7 @@ class ConvocatoriaController extends Controller
 
 
             foreach ($entidades as $entidad) {
-                $existe_entidad_tecnica = EntidadTecnica::where('ruc', $entidad['RUC'])->first();
+                $existe_entidad_tecnica = EntidadTecnica::where('ruc', strval($entidad['RUC']))->first();
                 if ($existe_entidad_tecnica) {
                     // foreach ($head as $convocatoria) {
                     for ($i=2; $i <count($convocatorias) ; $i++) {

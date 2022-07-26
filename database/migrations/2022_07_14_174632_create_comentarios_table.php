@@ -11,7 +11,7 @@ class CreateComentariosTable extends Migration
     {
         Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
-            $table->string('comentario')->nullable();
+            $table->text('comentario')->nullable();
             $table->string('convocatoria')->nullable();
             $table->string('email_user')->nullable();
             //entidad_tecnica_id
