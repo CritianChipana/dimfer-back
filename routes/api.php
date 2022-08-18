@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ClienteComentarioController;
+use App\Http\Controllers\ClienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntidadTecnicaController;
@@ -71,3 +73,16 @@ Route::post('/convocatoria/excel', [ConvocatoriaController::class, 'cargaConvoca
 
 //CARGA DE DATOS ENTIDAD TECNICA
 Route::post('/entidad/carga', [EntidadTecnicaController::class, 'cargaEntidadTecnica']);
+
+//MODULO DE Distribuidores
+Route::get('/distribuidores/prospectar', [ClienteController::class, 'clientes']);
+Route::post('/distribuidores/prospectar', [ClienteController::class, 'createdCliente']);
+Route::put('/distribuidores/prospectar/{id_cliente}', [ClienteController::class, 'updateCliente']);
+Route::delete('/distribuidores/prospectar/{id_cliente}', [ClienteController::class, 'deleteCliente']);
+    // **** crear comentario de los clientes registrados
+Route::post('/distribuidores/comentario', [ClienteComentarioController::class, 'createdClienteComentario']);
+Route::get('/distribuidores/comentario/{id_cliente}', [ClienteComentarioController::class, 'comentariosByCliente']);
+    // **** cargar clientes por excel
+Route::post('/distribuidores/cliente/excel', [ClienteController::class, 'cargaClienteExcel']);
+
+
