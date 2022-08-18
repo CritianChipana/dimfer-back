@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Contacto;
+use App\Models\contactoDistribuidor;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -133,43 +135,62 @@ class ClienteController extends Controller
     {
 
         try {
-            $entidades = $request->data;
-            return $entidades;
-            foreach ($entidades as $entidad) {
+            $clientes = $request->data;
+            // return $clientes;
+            foreach ($clientes as $cliente) {
 
-                $existe = isset($entidad['RUC']); /* ? ($entidad['RUC']) : '' */
+                $existe = isset($cliente['Nombre/Razon Social del Cliente']); /* ? ($cliente['RUC']) : '' */
                 if ($existe) {
-                    $existe_entidad_tecnica = Cliente::where('ruc', strval($entidad['Nombre/Razon Social del Cliente']))->first();
-                    if (!$existe_entidad_tecnica) {
+                    $existe_cliente = Cliente::where('ruc', strval($cliente['Nombre/Razon Social del Cliente']))->first();
+                    if (!$existe_cliente) {
                         $payload = [
-                            'departamento_fiscal' => isset($entidad['Departamento']) ? trim(strval($entidad['Departamento'])) : '',
-                            'departamento_real' => isset($entidad['DEPARTAMENTO - REAL']) ? trim(strval($entidad['DEPARTAMENTO - REAL'])) : '',
-                            'direccion_fiscal' => isset($entidad['DIRECCION FISCAL']) ? trim(strval($entidad['DIRECCION FISCAL'])) : '',
+                            'razon_social' => isset($cliente['Nombre/Razon Social del Cliente']) ? trim(strval($cliente['Nombre/Razon Social del Cliente'])) : '',
+                            'canales_de_venta' => isset($cliente['Canal de Venta']) ? trim(strval($cliente['Canal de Venta'])) : '',
+                            'ruc' => isset($cliente['RUC']) ? trim(strval($cliente['RUC'])) : '',
+                            'tipo_de_tienda' => isset($cliente['Tipo de tienda']) ? trim(strval($cliente['Tipo de tienda'])) : '',
+                            'perfil_de_cliente' => isset($cliente['Perfil de cliente']) ? trim(strval($cliente['Perfil de cliente'])) : '',
+                            'n_tienda' => isset($cliente['N° de tiendas']) ? $cliente['N° de tiendas'] : 0,
+                            'activo' => isset($cliente['Activo (Si/No)']) ? (($cliente['Activo (Si/No)'] == 'si' or $cliente['Activo (Si/No)'] == 'SI') ? true : false ) : false,
+                            'logo' => isset($cliente['Logo']) ? (($cliente['Logo'] == 'si' or $cliente['Logo'] == 'SI') ? true : false ) : false,
+                            'latitud' => isset($cliente['Latitud']) ? trim(strval($cliente['Latitud'])) : 0,
+                            'longitud' => isset($cliente['Longitud']) ? trim(strval($cliente['Longitud'])) : 0,
+                            'productos' => isset($cliente['Que productos comercializa']) ? trim(strval($cliente['Que productos comercializa'])) : '',
+                            'exhibidor' => isset($cliente['Tiene exhibidor']) ? (($cliente['Tiene exhibidor'] == 'si' or $cliente['Tiene exhibidor'] == 'SI') ? true : false ) : false,
+                            'remoledar_exhibidor' => isset($cliente['Se necesita remoledar el exhibidor?']) ? (($cliente['Se necesita remoledar el exhibidor?'] == 'si' or $cliente['Se necesita remoledar el exhibidor?'] == 'SI') ? true : false ) : false,
+                            'foto_local' => isset($cliente['Tenemos fotos de su local?']) ? (($cliente['Tenemos fotos de su local?'] == 'si' or $cliente['Tenemos fotos de su local?'] == 'SI') ? true : false ) : false,
+                            'tiene_material' => isset($cliente['Tiene material publicitario? (Banner/Aficha/Bandera)']) ?(($cliente['Tiene material publicitario? (Banner/Aficha/Bandera)'] == 'si' or $cliente['Tiene material publicitario? (Banner/Aficha/Bandera)'] == 'SI') ? true : false ) : false,
+                            'redes_sociales' => isset($cliente['Que redes sociales utiliza?']) ? trim(strval($cliente['Que redes sociales utiliza?'])) : '',
+                            'web' => isset($cliente['Web']) ? trim(strval($cliente['Web'])) : '',
+                            'link_facebook' => isset($cliente['Link de facebook']) ? trim(strval($cliente['Link de facebook'])) : '',
+                            'departamento' => isset($cliente['Departamento']) ? trim(strtoupper(strval($cliente['Departamento']))) : '',
+                            'provincia' => isset($cliente['Provincia']) ? trim(strtoupper(strval($cliente['Provincia']))) : '',
+                            'direccion_cliente' => isset($cliente['DireccionCliente']) ? trim(strval($cliente['DireccionCliente'])) : '',
+                            'ubicacion_de_maps' => isset($cliente['ubicación de maps google']) ? trim(strval($cliente['ubicación de maps google'])) : '',
                         ];
 
-                        $newEntidad = Cliente::create($payload);
+                        $newCliente = Cliente::create($payload);
 
-                        // $payload_contact_1 = [
-                        //     'nombre' => isset($entidad['NOMBRE DEL CONTACTO']) ? $entidad['NOMBRE DEL CONTACTO'] : '',
-                        //     'email' => isset($entidad['EMail']) ? $entidad['EMail'] : '',
-                        //     'telefono' => isset($entidad['Celular']) ? $entidad['Celular'] : '',
-                        //     'entidad_tecnica_id' => $newEntidad->id,
-                        // ];
-                        // logger("===============================");
-                        // logger($payload_contact_1);
-                        // $payload_contact_2 = [
-                        //     'nombre' => isset($entidad['NOMBRE DEL CONTACTO_1']) ? $entidad['NOMBRE DEL CONTACTO_1'] : '',
-                        //     'email' => isset($entidad['EMail_1']) ? $entidad['EMail_1'] : '',
-                        //     'telefono' => isset($entidad['Celular_1']) ? $entidad['Celular_1'] : '',
-                        //     'entidad_tecnica_id' => $newEntidad,
-                        // ];
+                        $payload_contact_1 = [
+                            'nombre' => isset($cliente['Nombre contacto 1']) ? $cliente['Nombre contacto 1'] : '',
+                            'telefono' => isset($cliente['Numero Contacto 1']) ? $cliente['Numero Contacto 1'] : '',
+                            'email' => isset($cliente['Correo contacto 1']) ? $cliente['Correo contacto 1'] : '',
+                            'cliente_id' => $newCliente->id,
+                        ];
+                        logger("===============================");
+                        logger($payload_contact_1);
+                        $payload_contact_2 = [
+                            'nombre' => isset($cliente['Nombre contacto 2']) ? $cliente['Nombre contacto 2'] : '',
+                            'telefono' => isset($cliente['Numero Contacto 2']) ? $cliente['Numero Contacto 2'] : '',
+                            'email' => isset($cliente['Correo contacto 2']) ? $cliente['Correo contacto 2'] : '',
+                            'cliente_id' => $newCliente,
+                        ];
 
-                        // if (isset($entidad['NOMBRE DEL CONTACTO']) || isset($entidad['EMail']) || isset($entidad['Celular'])) {
-                        //     Contacto::create($payload_contact_1);
-                        // }
-                        // if (isset($entidad['NOMBRE DEL CONTACTO_1']) || isset($entidad['EMail_1']) || isset($entidad['Celular_1'])) {
-                        //     Contacto::create($payload_contact_2);
-                        // }
+                        if (isset($cliente['Nombre contacto 1']) || isset($cliente['Numero Contacto 1']) || isset($cliente['Correo contacto 1'])) {
+                            contactoDistribuidor::create($payload_contact_1);
+                        }
+                        if (isset($cliente['Nombre contacto 2']) || isset($cliente['Numero Contacto 2']) || isset($cliente['Correo contacto 2'])) {
+                            contactoDistribuidor::create($payload_contact_2);
+                        }
                         // dd($entidad['RUC']);
                     }
                 }

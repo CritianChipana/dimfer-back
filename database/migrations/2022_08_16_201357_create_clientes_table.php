@@ -30,8 +30,8 @@ class CreateClientesTable extends Migration
             $table->integer('n_tienda')->nullable();
             $table->boolean('activo')->nullable();
             $table->boolean('logo')->nullable();
-            $table->float('latitud')->nullable();
-            $table->float('longitud')->nullable();
+            $table->string('latitud')->nullable();
+            $table->string('longitud')->nullable();
             $table->string('productos')->nullable();
             $table->boolean('exhibidor')->nullable();
             $table->boolean('remoledar_exhibidor')->nullable();
