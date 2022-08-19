@@ -20,12 +20,13 @@ class CreateClientesTable extends Migration
             $table->string('departamento')->nullable();
             $table->string('provincia')->nullable();
             $table->string('tipo_de_cliente')->nullable();
-            $table->string('canales_de_venta')->nullable();
+            $table->string('canal_de_venta')->nullable();
             // para el elemento 2
             $table->string('razon_social')->nullable();
             $table->string('email_user')->nullable();
             $table->string('ruc')->nullable();
             $table->string('tipo_de_tienda')->nullable();
+            $table->string('estado_de_negociacion')->nullable();
             $table->string('perfil_de_cliente')->nullable();
             $table->integer('n_tienda')->nullable();
             $table->boolean('activo')->nullable();

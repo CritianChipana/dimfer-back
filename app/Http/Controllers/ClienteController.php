@@ -141,13 +141,14 @@ class ClienteController extends Controller
 
                 $existe = isset($cliente['Nombre/Razon Social del Cliente']); /* ? ($cliente['RUC']) : '' */
                 if ($existe) {
-                    $existe_cliente = Cliente::where('ruc', strval($cliente['Nombre/Razon Social del Cliente']))->first();
+                    $existe_cliente = Cliente::where('razon_social', strval($cliente['Nombre/Razon Social del Cliente']))->first();
                     if (!$existe_cliente) {
                         $payload = [
                             'razon_social' => isset($cliente['Nombre/Razon Social del Cliente']) ? trim(strval($cliente['Nombre/Razon Social del Cliente'])) : '',
-                            'canales_de_venta' => isset($cliente['Canal de Venta']) ? trim(strval($cliente['Canal de Venta'])) : '',
+                            'canal_de_venta' => isset($cliente['Canal de Venta']) ? trim(strtoupper(strval($cliente['Canal de Venta']))) : '',
                             'ruc' => isset($cliente['RUC']) ? trim(strval($cliente['RUC'])) : '',
-                            'tipo_de_tienda' => isset($cliente['Tipo de tienda']) ? trim(strval($cliente['Tipo de tienda'])) : '',
+                            'email_user' => isset($cliente['Vendedor']) ? trim(strval($cliente['Vendedor'])) : '',
+                            'tipo_de_tienda' => isset($cliente['Tipo de tienda']) ? trim(strtoupper(strval($cliente['Tipo de tienda']))) : '',
                             'perfil_de_cliente' => isset($cliente['Perfil de cliente']) ? trim(strval($cliente['Perfil de cliente'])) : '',
                             'n_tienda' => isset($cliente['N° de tiendas']) ? $cliente['N° de tiendas'] : 0,
                             'activo' => isset($cliente['Activo (Si/No)']) ? (($cliente['Activo (Si/No)'] == 'si' or $cliente['Activo (Si/No)'] == 'SI') ? true : false ) : false,

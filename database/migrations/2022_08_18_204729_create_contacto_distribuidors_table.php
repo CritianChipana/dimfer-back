@@ -25,7 +25,7 @@ class CreateContactoDistribuidorsTable extends Migration
             //cliente_id
             $table->foreign('cliente_id')
                 ->references('id')->on('clientes')
-                ->onDelete('set null');
+                ->onDelete('cascade');
             $table->unsignedBigInteger('cliente_id')->nullable();
             $table->timestamps();
         });

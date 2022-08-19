@@ -15,7 +15,7 @@ class Cliente extends Model
         'departamento',
         'provincia',
         'tipo_de_cliente',
-        'canales_de_venta',
+        'canal_de_venta',
         'razon_social',
         'email_user',
         'ruc',
@@ -36,6 +36,7 @@ class Cliente extends Model
         'link_facebook',
         'direccion_cliente',
         'ubicacion_de_maps',
+        'estado_de_negociacion'
     ];
 
     //relacion uno a muchos
