@@ -183,7 +183,7 @@ class ClienteController extends Controller
                             'nombre' => isset($cliente['Nombre contacto 2']) ? $cliente['Nombre contacto 2'] : '',
                             'telefono' => isset($cliente['Numero Contacto 2']) ? $cliente['Numero Contacto 2'] : '',
                             'email' => isset($cliente['Correo contacto 2']) ? $cliente['Correo contacto 2'] : '',
-                            'cliente_id' => $newCliente,
+                            'cliente_id' => $newCliente->id,
                         ];
 
                         if (isset($cliente['Nombre contacto 1']) || isset($cliente['Numero Contacto 1']) || isset($cliente['Correo contacto 1'])) {

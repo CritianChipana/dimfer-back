@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntidadTecnicaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\ContactoDistribuidorController;
 use App\Http\Controllers\ConvocatoriaController;
 use App\Http\Controllers\NegociacionController;
 
@@ -84,5 +85,9 @@ Route::post('/distribuidores/comentario', [ClienteComentarioController::class, '
 Route::get('/distribuidores/comentario/{id_cliente}', [ClienteComentarioController::class, 'comentariosByCliente']);
     // **** cargar clientes por excel
 Route::post('/distribuidores/cliente/excel', [ClienteController::class, 'cargaClienteExcel']);
-
+    // contactos
+Route::get('/cliente/contacto/{id_cliente}', [ContactoDistribuidorController::class, 'contactos']);
+Route::post('/cliente/contacto', [ContactoDistribuidorController::class, 'createdContacto']);
+Route::put('/cliente/contacto/{id}', [ContactoDistribuidorController::class, 'updatedContacto']);
+Route::delete('/cliente/contacto/{id}', [ContactoDistribuidorController::class, 'deleteContacto']);
 
