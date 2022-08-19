@@ -247,6 +247,7 @@ class ConvocatoriaController extends Controller
     public function getEntidadTecnica(Request $request)
     {
     }
+    
     public function entidadSinNegociacion(Request $request, $id_convocatoria)
     {
         try {

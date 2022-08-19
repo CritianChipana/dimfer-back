@@ -14,11 +14,11 @@ class CreateEntidadTecnicasTable extends Migration
             $table->string('departamento_fiscal')->nullable();
             $table->string('departamento_real')->nullable();
             $table->string('direccion_fiscal')->nullable();
-            $table->float('latitud_fiscal_gps')->nullable();
-            $table->float('longitud_fiscal_gps')->nullable();
+            $table->double('latitud_fiscal_gps')->nullable();
+            $table->double('longitud_fiscal_gps')->nullable();
             $table->string('direccion_real')->nullable();
-            $table->float('latitud_real_gps')->nullable();
-            $table->float('longitud_real_gps')->nullable();
+            $table->double('latitud_real_gps')->nullable();
+            $table->double('longitud_real_gps')->nullable();
             $table->string('email_user')->nullable();
             $table->string('estado')->nullable();
             $table->text('foto_direccion_fiscal')->nullable();
