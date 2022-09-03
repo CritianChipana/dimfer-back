@@ -9,6 +9,7 @@ use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\ContactoDistribuidorController;
 use App\Http\Controllers\ConvocatoriaController;
+use App\Http\Controllers\InstaladoresController;
 use App\Http\Controllers\NegociacionController;
 
 /*
@@ -93,3 +94,11 @@ Route::get('/contactos/clientes/todos', [ContactoDistribuidorController::class, 
 Route::post('/cliente/contacto', [ContactoDistribuidorController::class, 'createdContacto']);
 Route::put('/cliente/contacto/{id}', [ContactoDistribuidorController::class, 'updatedContacto']);
 Route::delete('/cliente/contacto/{id}', [ContactoDistribuidorController::class, 'deleteContacto']);
+
+
+//modulo de INSTALADORES
+Route::get('/instaladores/contactos', [InstaladoresController::class, 'contactosTodos']);
+Route::post('/instaladores/contacto', [InstaladoresController::class, 'createdContacto']);
+Route::put('/instaladores/contacto/{id}', [InstaladoresController::class, 'updatedContacto']);
+Route::delete('/instaladores/contacto/{id}', [InstaladoresController::class, 'deleteContacto']);
+
