@@ -142,7 +142,7 @@ class ContactoController extends Controller
 
         try {
 
-            $contactos = DB::select("SELECT * from contactos where nombre LIKE '%4%'");
+            $contactos = DB::select("SELECT * from contactos where nombre LIKE '%6%'");
 
             foreach ($contactos as $value) {
                 $contacto = Contacto::find($value->id);
