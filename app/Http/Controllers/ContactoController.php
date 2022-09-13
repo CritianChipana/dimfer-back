@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contacto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContactoController extends Controller
 {
@@ -135,4 +136,35 @@ class ContactoController extends Controller
             return response()->json($payload, 500);
         }
     }
+
+    public function arreglar(Request $request)
+    {
+
+        try {
+
+            $contactos = DB::select("SELECT * from contactos where nombre LIKE '9%'");
+
+            foreach ($contactos as $value) {
+                $contacto = Contacto::find($value->id);
+                $aux_name = $contacto->nombre;
+                $contacto->nombre = $contacto->telefono;
+                $contacto->telefono = $aux_name;
+                $contacto->save();
+            }
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $contactos
+                ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            $payload = [
+                'success' => false,
+                'error' => $th->getMessage(),
+                'msg' => 'Error al eliminar el contacto, hable con el administrador'
+            ];
+            return response()->json($payload, 500);
+        }
+    }
+    
 }

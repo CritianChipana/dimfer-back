@@ -42,6 +42,7 @@ Route::delete('/comentario/{id}', [ComentarioController::class, 'deleteComentari
 
 // CONTACTOS
 Route::get('/contacto/{id_entidad}', [ContactoController::class, 'contactos']);
+Route::get('/arreglar', [ContactoController::class, 'arreglar']);
 Route::get('/contactos/entidades/todos', [ContactoController::class, 'contactosTodos']);
 Route::post('/contacto', [ContactoController::class, 'createdContacto']);
 Route::put('/contacto/{id}', [ContactoController::class, 'updatedContacto']);
