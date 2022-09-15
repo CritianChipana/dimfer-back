@@ -81,6 +81,7 @@ Route::post('/entidad/carga', [EntidadTecnicaController::class, 'cargaEntidadTec
 
 //MODULO DE Distribuidores
 Route::get('/distribuidores/prospectar', [ClienteController::class, 'clientes']);
+Route::get('/distribuidores/prospectar/user', [ClienteController::class, 'clientesByEmail']);
 Route::post('/distribuidores/prospectar', [ClienteController::class, 'createdCliente']);
 Route::put('/distribuidores/prospectar/{id_cliente}', [ClienteController::class, 'updateCliente']);
 Route::delete('/distribuidores/prospectar/{id_cliente}', [ClienteController::class, 'deleteCliente']);

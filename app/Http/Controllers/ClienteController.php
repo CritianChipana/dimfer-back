@@ -28,15 +28,16 @@ class ClienteController extends Controller
             return response()->json($payload, 500);
         }
     }
-    public function entidadesTecnicasByUser(Request $request)
+
+    public function clientesByEmail(Request $request)
     {
         try {
             $email_user = $request->header('email_user');
-            $entidadesTecnicas = Cliente::where('email_user', $email_user)->get();
+            $cliente = Cliente::where('email_user', $email_user)->get();
 
             return response()->json([
                 'success' => true,
-                'data' => $entidadesTecnicas
+                'data' => $cliente
             ], 200);
         } catch (\Throwable $th) {
             $payload = [
