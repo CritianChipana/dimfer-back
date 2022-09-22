@@ -36,7 +36,8 @@ class Cliente extends Model
         'link_facebook',
         'direccion_cliente',
         'ubicacion_de_maps',
-        'estado_de_negociacion'
+        'estado_de_negociacion',
+        'fecha_ultima_visita'
     ];
 
     //relacion uno a muchos
