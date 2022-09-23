@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactoDistribuidorController;
 use App\Http\Controllers\ConvocatoriaController;
 use App\Http\Controllers\InstaladoresController;
 use App\Http\Controllers\NegociacionController;
+use App\Http\Controllers\PerfilClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,3 +106,7 @@ Route::post('/instaladores/contacto', [InstaladoresController::class, 'createdCo
 Route::put('/instaladores/contacto/{id}', [InstaladoresController::class, 'updatedContacto']);
 Route::delete('/instaladores/contacto/{id}', [InstaladoresController::class, 'deleteContacto']);
 
+// Crud para la tabla perfil_De_cliente
+Route::get('/cliente/perfilClientes', [PerfilClienteController::class, 'perfilClientes']);
+Route::post('/cliente/perfilCliente', [PerfilClienteController::class, 'createdPerfilCliente']);
+Route::put('/cliente/perfilCliente/{id}', [PerfilClienteController::class, 'updatedPerfilCliente']);
