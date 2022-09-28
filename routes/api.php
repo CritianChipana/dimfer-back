@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntidadTecnicaController;
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\ContactByExcelController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\ContactoDistribuidorController;
 use App\Http\Controllers\ConvocatoriaController;
@@ -110,3 +111,7 @@ Route::delete('/instaladores/contacto/{id}', [InstaladoresController::class, 'de
 Route::get('/cliente/perfilClientes', [PerfilClienteController::class, 'perfilClientes']);
 Route::post('/cliente/perfilCliente', [PerfilClienteController::class, 'createdPerfilCliente']);
 Route::put('/cliente/perfilCliente/{id}', [PerfilClienteController::class, 'updatedPerfilCliente']);
+
+//Upload Excel por contact generico
+Route::post('/contactosByExcel', [ContactByExcelController::class, 'createByExcel']);
+Route::get('/contactosByExcel', [ContactByExcelController::class, 'getContacts']);
