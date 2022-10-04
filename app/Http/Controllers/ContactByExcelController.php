@@ -39,8 +39,8 @@ class ContactByExcelController extends Controller
                 $payload = [
                     'nombre' => isset($contacto['Nombre']) ? $contacto['Nombre'] : '',
                     'empresa' => isset($contacto['Empresa']) ? $contacto['Empresa'] : '',
-                    'telefono' => isset($contacto['Email Personal']) ? $contacto['Email Personal'] : '',
-                    'telefono2' => isset($contacto['Email Corporato']) ? $contacto['Email Corporato'] : '',
+                    'telefono' => isset($contacto['Telefono Personal']) ? $contacto['Telefono Personal'] : '',
+                    'telefono2' => isset($contacto['Telefono Corporativo']) ? $contacto['Telefono Corporativo'] : '',
                     'email' => isset($contacto['Email Personal']) ? $contacto['Email Personal'] : '',
                     'email2' => isset($contacto['Email Corporato']) ? $contacto['Email Corporato'] : '',
                     'cargo' => isset($contacto['Cargo']) ? $contacto['Cargo'] : '',
