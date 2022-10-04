@@ -16,6 +16,7 @@ class contactoDistribuidor extends Model
         "email",
         "email2",
         "cargo",
-        "cliente_id"
+        "cliente_id",
+        "empresa"
     ];
 }

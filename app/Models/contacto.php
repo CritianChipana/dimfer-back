@@ -16,6 +16,7 @@ class Contacto extends Model
         "email",
         "email2",
         "cargo",
-        "entidad_tecnica_id"
+        "entidad_tecnica_id",
+        "empresa"
     ];
 }
