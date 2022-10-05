@@ -31,7 +31,11 @@ class ContactoController extends Controller
     public function contactosTodos(Request $request)
     {
         try {
-            $contactos = Contacto::get();
+            // $contactos = Contacto::get();
+            $contactos = Contacto::join('entidad_tecnicas', 'contactos.entidad_tecnica_id', '=', 'entidad_tecnicas.id')
+            ->select('entidad_tecnicas.razon_social','contactos.*')
+            ->get();
+
 
             return response()->json([
                 'success' => true,

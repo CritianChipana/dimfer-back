@@ -17,7 +17,8 @@ class ContactByExcel extends Model
         "email",
         "email2",
         "cargo",
-        "direccion"
+        "direccion",
+        "modulo"
     ];
 
 }

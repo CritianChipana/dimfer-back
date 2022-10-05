@@ -30,7 +30,11 @@ class ContactoDistribuidorController extends Controller
     public function contactosTodos(Request $request)
     {
         try {
-            $contactos = contactoDistribuidor::get();
+            $contactos = contactoDistribuidor::join('clientes', 'contacto_distribuidors.cliente_id', '=', 'clientes.id')
+                ->select('clientes.razon_social','contacto_distribuidors.*')
+                ->get();
+
+
 
             return response()->json([
                 'success' => true,

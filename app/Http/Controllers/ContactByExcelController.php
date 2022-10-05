@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactByExcel;
+use App\Models\contactoDistribuidor;
 use Illuminate\Http\Request;
 
 class ContactByExcelController extends Controller
@@ -37,6 +38,7 @@ class ContactByExcelController extends Controller
             $contactos = $request->data;
             foreach ($contactos as $contacto) {
                 $payload = [
+                    'modulo' => isset($contacto['Modulo']) ? $contacto['Modulo'] : '',
                     'nombre' => isset($contacto['Nombre']) ? $contacto['Nombre'] : '',
                     'empresa' => isset($contacto['Empresa']) ? $contacto['Empresa'] : '',
                     'telefono' => isset($contacto['Telefono Personal']) ? $contacto['Telefono Personal'] : '',
