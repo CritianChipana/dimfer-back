@@ -48,10 +48,7 @@ class ContactByExcelController extends Controller
                     'cargo' => isset($contacto['Cargo']) ? $contacto['Cargo'] : '',
                     'direccion' => isset($contacto['Dirección']) ? $contacto['Dirección'] : '',
                 ];
-    
-                // if (isset($contacto['nombre']) || isset($contacto['EMail']) || isset($contacto['Celular'])) {
                     ContactByExcel::create($payload);
-                // }
             }
     
             return response()->json([
