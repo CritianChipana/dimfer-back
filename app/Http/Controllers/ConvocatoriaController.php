@@ -191,6 +191,9 @@ class ConvocatoriaController extends Controller
 
             $convocatoria->entidadesTecnicas()->attach($id_entidadTecnica, ['cantidad_de_modulos' => (int)$cantidad_de_modulos]);
 
+            $convocatoria->updated_at= new \DateTime;
+            $convocatoria->save();
+            
             return response()->json([
                 'success' => true,
                 'msg' => 'Se agregó la entidad tecnica a la convocatoria'

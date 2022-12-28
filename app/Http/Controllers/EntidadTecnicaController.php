@@ -86,7 +86,6 @@ class EntidadTecnicaController extends Controller
     }
     public function updatedEntidadTecnica(Request $request, $id)
     {
-
         try {
             $entidadTecnica = EntidadTecnica::find($id);
 
